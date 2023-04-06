@@ -1,0 +1,175 @@
+<form
+  [formGroup]="editSubscriberForm"
+  (ngSubmit)="editSubscriber()"
+  class="flex flex-column gap-3"
+>
+  <div class="flex flex-column gap-2">
+    <label htmlFor="username" class="font-bold">Nombre</label>
+    <input
+      pInputText
+      id="username"
+      formControlName="Name"
+      minlength="3"
+      maxlength="30"
+    />
+    <div
+      class="text-red-500 text-xs"
+      *ngIf="
+        editSubscriberForm.get('Name')?.invalid &&
+        (editSubscriberForm.get('Name')?.dirty ||
+          editSubscriberForm.get('Name')?.touched)
+      "
+    >
+      <div *ngIf="editSubscriberForm.get('Name')?.hasError('required')">
+        El nombre es obligatorio
+      </div>
+      <div *ngIf="editSubscriberForm.get('Name')?.hasError('minlength')">
+        El nombre debe tener al menos 3 caracteres
+      </div>
+      <div *ngIf="editSubscriberForm.get('Name')?.hasError('maxlength')">
+        El nombre no puede tener más de 20 caracteres
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-column gap-2">
+    <label htmlFor="username" class="font-bold">Correo</label>
+    <input pInputText id="username" formControlName="Email" />
+    <div
+      class="text-red-500 text-xs"
+      *ngIf="
+        editSubscriberForm.get('Email')?.invalid &&
+        (editSubscriberForm.get('Email')?.dirty ||
+          editSubscriberForm.get('Email')?.touched)
+      "
+    >
+      <div *ngIf="editSubscriberForm.get('Email')?.hasError('required')">
+        El correo es obligatorio
+      </div>
+      <div *ngIf="editSubscriberForm.get('Email')?.hasError('email')">
+        Debe tener un formato: example@dominio.com
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-column gap-2">
+    <label htmlFor="username" class="font-bold">País</label>
+    <p-dropdown
+      [options]="countries"
+      formControlName="CountryCode"
+      (onChange)="onCountryChange($event)"
+      optionLabel="Name"
+      optionValue="Code"
+      [filter]="true"
+      filterBy="Name"
+      [emptyFilterMessage]="'No se encontraron resultados'"
+      [virtualScroll]="true"
+      [virtualScrollItemSize]="38"
+      [autoDisplayFirst]="false"
+      styleClass="w-12"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div
+          class="flex align-items-center gap-2"
+          *ngIf="editSubscriberForm.controls['CountryName'].value; else empty"
+        >
+          <span
+            class="fi fi-{{
+              editSubscriberForm.controls['CountryCode'].value.toLowerCase()
+            }}"
+          ></span>
+          <div>{{ editSubscriberForm.controls['CountryName'].value }}</div>
+        </div>
+        <ng-template #empty>
+          <div>&nbsp;</div>
+        </ng-template>
+      </ng-template>
+      <ng-template let-country pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <span class="fi fi-{{ country.Code.toLowerCase() }}"></span>
+          <div>{{ country.Name }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+    <div
+      class="text-red-500 text-xs"
+      *ngIf="
+        editSubscriberForm.get('CountryCode')?.invalid &&
+        (editSubscriberForm.get('CountryCode')?.dirty ||
+          editSubscriberForm.get('CountryCode')?.touched)
+      "
+    >
+      <div *ngIf="editSubscriberForm.get('CountryCode')?.hasError('required')">
+        El país es obligatorio
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-column gap-2">
+    <label htmlFor="username" class="font-bold">Estado de suscripción</label>
+    <p-dropdown
+      [options]="statesList"
+      formControlName="SubscriptionStateDescription"
+      styleClass="w-12"
+      [autoDisplayFirst]="false"
+    ></p-dropdown>
+    <div
+      class="text-red-500 text-xs"
+      *ngIf="
+        editSubscriberForm.get('SubscriptionStateDescription')?.invalid &&
+        (editSubscriberForm.get('SubscriptionStateDescription')?.dirty ||
+          editSubscriberForm.get('SubscriptionStateDescription')?.touched)
+      "
+    >
+      <div
+        *ngIf="
+          editSubscriberForm
+            .get('SubscriptionStateDescription')
+            ?.hasError('required')
+        "
+      >
+        El estado de la suscripción es obligatorio
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-column gap-2">
+    <label htmlFor="username" class="font-bold">Número telefónico</label>
+    <input
+      pInputText
+      id="username"
+      formControlName="PhoneNumber"
+      type="number"
+    />
+    <div
+      *ngIf="
+        editSubscriberForm.get('PhoneNumber')?.invalid &&
+        (editSubscriberForm.get('PhoneNumber')?.dirty ||
+          editSubscriberForm.get('PhoneNumber')?.touched)
+      "
+    >
+      <div
+        class="text-red-500 text-xs"
+        *ngIf="editSubscriberForm.get('PhoneNumber')?.hasError('pattern')"
+      >
+        Debe digitar solo números
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-column gap-2">
+    <label htmlFor="username" class="font-bold">Área</label>
+    <input pInputText id="username" formControlName="Area" />
+  </div>
+  <div class="flex gap-3 mt-3">
+    <button
+      pButton
+      type="submit"
+      label="Guardar"
+      class="p-button-rounded p-button-success"
+      [disabled]="!editSubscriberForm.valid"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      class="p-button-rounded p-button-danger"
+      (click)="closeDialog()"
+    ></button>
+  </div>
+</form>

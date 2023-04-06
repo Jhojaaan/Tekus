@@ -1,0 +1,5 @@
+<app-header [hidden]="currentRoute === '/login'"></app-header>
+<div class="app-container">
+  <router-outlet></router-outlet>
+</div>
+<ngx-spinner bdColor = "rgba(0,0,0,0.8)" size = "medium" color = "#ff9e1b" type = "ball-pulse" [fullScreen] = "true"></ngx-spinner>

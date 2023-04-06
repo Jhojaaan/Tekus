@@ -1,0 +1,10 @@
+.container.login {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  place-items: center;
+}
+
+  .btn-entrar{
+    background-color: #ff9e1b !important;
+    border:#ff9e1b !important;
+}
