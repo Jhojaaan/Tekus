@@ -18,8 +18,8 @@ import { HeaderViewModel } from './view-models/header/header-view-model';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    },
+      multi:true
+    },
     HeaderViewModel
 
   ]
