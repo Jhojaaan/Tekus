@@ -15,6 +15,9 @@ export class SubscribersListComponent {
   //Observable que emite los suscriptores
   public subscribersList$ = this.subscribersList.asObservable();
 
+  public sortOrder = '';
+  public sortType = 0;
+
   // Subject que indica cuándo se debe destruir el componente
   private destroyComponent$: Subject<void> = new Subject();
 
@@ -97,5 +100,28 @@ export class SubscribersListComponent {
     this.destroyComponent$.next();
     //Se llama al método complete() para completar el objeto destroyComponent$
     this.destroyComponent$.complete();
+  }
+
+
+  public orderList(criteria: any) {
+    
+    
+    this.subscribersViewModel.sortOrder = criteria.sortField;
+    this.subscribersViewModel.sortType = criteria.sortOrder;  
+
+    this.getSubscribers()
+
+    // this.subscribersServices.subscribersList({
+    
+    //     page: this.page,
+    //     count: this.rowsPerPage,
+    //     sortOrder: this.sortOrder,
+    //     sortType: this.sortType,
+    // }).subscribe({
+    //   next: () => {
+
+    //   }
+    // })
+
   }
 }

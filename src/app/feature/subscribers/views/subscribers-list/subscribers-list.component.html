@@ -19,15 +19,18 @@
         [value]="subscribers"
         [tableStyle]="{ 'min-width': '50rem' }"
         [rowTrackBy]="trackByFn"
+        [lazy]="true"
+        (onLazyLoad) ="orderList($event)"
       >
         <ng-template pTemplate="header">
           <tr>
-            <th>Identificador</th>
-            <th>Nombre</th>
-            <th>Correo</th>
+            
+            <th pSortableColumn="PublicId">Identificador<p-sortIcon field="PublicId"></p-sortIcon></th>
+            <th pSortableColumn="Name">Nombre<p-sortIcon field="Name"></p-sortIcon></th>
+            <th pSortableColumn="Email">Correo <p-sortIcon field="Email"></p-sortIcon></th>
             <th>Telefono</th>
             <th>Pais</th>
-            <th>Area</th>
+            <th pSortableColumn="Area">Area <p-sortIcon field="Area"></p-sortIcon></th>
             <th>Estado suscripción</th>
             <th></th>
           </tr>

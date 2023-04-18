@@ -9,6 +9,7 @@ import { EditSubscriberComponent } from '../../views/edit-subscriber/edit-subscr
 import { SubscribersService } from '../../services/subscribers/subscribers.service';
 import { MyDialogConfig } from '../../models/myDialogConfig';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ParamsOrder } from '../../models/paramsOrder';
 
 @Injectable()
 export class SubscribersViewModel {
@@ -16,6 +17,8 @@ export class SubscribersViewModel {
   public first = 0;
   public count = 10;
   public rowsPerPage = 10;
+  public sortOrder = '';
+  public sortType = 0;
   private detectSubscriberChanges: BehaviorSubject<null> = new BehaviorSubject(
     null
   );
@@ -41,11 +44,19 @@ export class SubscribersViewModel {
    * @returns Observable con un array de objetos del tipo subscriberModel
    */
   public getSubscribers(): Observable<subscriberModel[]> {
+
+    let params: ParamsOrder = {
+      page: this.page.toString(),
+      count: this.count.toString(),
+    }
+
+    if(this.sortOrder !== ''){
+      params.sortOrder = this.sortOrder;
+      params.sortType = this.sortType;
+    }
+
     return this.subscribersServices
-      .subscribersList({
-        page: this.page,
-        count: this.rowsPerPage,
-      })
+      .subscribersList(params)
       .pipe(
         tap((subscribers: subscribersModel) => {
           this.count = subscribers.Count;
@@ -167,4 +178,7 @@ export class SubscribersViewModel {
       },
     });
   }
+
+  
+  
 }

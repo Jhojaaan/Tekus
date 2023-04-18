@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { subscribersModel } from '../../models/subscribers.model';
 import { subscriberModel } from '../../models/subscribers.model';
+import { ParamsOrder } from '../../models/paramsOrder';
 
 /**
  * Servicio encargado de gestionar las operaciones relacionadas con los suscriptores
@@ -22,21 +23,12 @@ export class SubscribersService {
    * @param count Cantidad de suscriptores por página
    * @returns Un Observable que emite un objeto subscribersModel
    */
-  public subscribersList({
-    page,
-    count,
-  }: {
-    page: number;
-    count: number;
-  }): Observable<subscribersModel> {
+  public subscribersList(params: ParamsOrder):  Observable<subscribersModel> {
+
+    const param = new HttpParams({fromObject: {...params}})
+
     return this.httpClient.get<subscribersModel>(
-      `${environment.apiUrl}subscribers/`,
-      {
-        params: {
-          page: page.toString(),
-          count: count.toString(),
-        },
-      }
+      `${environment.apiUrl}subscribers/`, {params: param}
     );
   }
 
